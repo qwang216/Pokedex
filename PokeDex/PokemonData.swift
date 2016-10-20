@@ -14,7 +14,7 @@ class PokemonData {
     var pokemons: [Pokemon]?
 
     func loadAllPokemonsOn(completion: @escaping (_ didFinishLoading: Bool) -> Void) {
-            PKAPIHelper.pokedexManager.fetchAllPokemons { (jsonDict, response, errorMessage) in
+            PKAPIHelper.instance.fetchAllPokemons { (jsonDict, response, errorMessage) in
                 guard let pkDicts = jsonDict else { return }
                 self.pokemons = [Pokemon]()
                 for pkDict in pkDicts {
