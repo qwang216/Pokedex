@@ -25,11 +25,11 @@ class PKAPIHelper {
         DispatchQueue.global(qos: .background).async {
             session.dataTask(with: request) { (data, response, error) in
                 guard let jsonData = data else { return }
-                let json: [[String: Any]]?
+                var json: [[String: Any]]?
                 do {
                     json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]]
-                } catch _ {
-                    json = nil
+                } catch let err {
+                    print("Pokedex API error ==> \n\(err)")
                 }
                 let errorString = error?.localizedDescription
                 DispatchQueue.main.async {
