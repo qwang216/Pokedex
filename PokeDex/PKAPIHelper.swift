@@ -9,12 +9,8 @@
 import Foundation
 
 class PKAPIHelper {
-    class var pokedexManager: PKAPIHelper {
-        struct Singleton {
-            static let instance = PKAPIHelper()
-        }
-        return Singleton.instance
-    }
+    static let instance = PKAPIHelper()
+    private init() {}
 
     func fetchAllPokemons(completion: @escaping (_ jsonObject: [[String: Any]]?, _ response: URLResponse?, _ errMsg: String?) -> ()) {
         let pkAPIString = "http://okaymon.mybluemix.net/api/pokemon"
