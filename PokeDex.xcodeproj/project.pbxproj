@@ -119,8 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				D4760BF31DB2A4A500D9DF8C /* PKAPIHelper.swift */,
-				D4760BDF1DB1CF8300D9DF8C /* AppDelegate.swift */,
 				D4F9281D1DB2E744001BB75B /* Extensions.swift */,
+				D4760BDF1DB1CF8300D9DF8C /* AppDelegate.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";

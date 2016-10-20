@@ -25,6 +25,7 @@ class PokemonDetailViewController: UIViewController, AVSpeechSynthesizerDelegate
 
     @IBOutlet weak var pkNameLabel: UILabel!
     @IBOutlet weak var pokeballImageView: UIImageView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Pokémon Detail"
@@ -32,6 +33,34 @@ class PokemonDetailViewController: UIViewController, AVSpeechSynthesizerDelegate
         synthesizer.delegate = self
         setupPokemonData()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        roatePokeBall()
+    }
+
+    func roatePokeBall() {
+        UIView.animate(withDuration: 2.0, delay: 0.5, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            for _ in 0..<4 {
+                self.setPokeballTransformRotate180()
+            }
+            }, completion: { (didFinish) in
+                if didFinish {
+                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                        self.pkimageView.transform = self.pkimageView.transform.scaledBy(x: 1.5, y: 1.5)
+                        }, completion: { (didFinishScale) in
+                            if didFinishScale {
+                                self.pkimageView.transform = .identity
+                            }
+                    })
+                }
+        })
+    }
+
+    fileprivate func setPokeballTransformRotate180 () {
+        pokeballImageView.transform = pokeballImageView.transform.rotated(by: CGFloat(M_PI))
+    }
+
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

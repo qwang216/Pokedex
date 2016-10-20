@@ -13,18 +13,15 @@ class PokemonData {
     
     var pokemons: [Pokemon]?
 
-    init() {
-
-    }
-    func loadAllPokemonsOn(tableView: UITableView) {
-        PKAPIHelper.pokedexManager.fetchAllPokemons { (jsonDict, response, errorMessage) in
-            guard let pkDicts = jsonDict else { return }
-            self.pokemons = [Pokemon]()
-            for pkDict in pkDicts {
-                guard let pokemon = Pokemon(withDict: pkDict) else { continue }
-                self.pokemons?.append(pokemon)
+    func loadAllPokemonsOn(completion: @escaping (_ didFinishLoading: Bool) -> Void) {
+            PKAPIHelper.pokedexManager.fetchAllPokemons { (jsonDict, response, errorMessage) in
+                guard let pkDicts = jsonDict else { return }
+                self.pokemons = [Pokemon]()
+                for pkDict in pkDicts {
+                    guard let pokemon = Pokemon(withDict: pkDict) else { continue }
+                    self.pokemons?.append(pokemon)
+                }
+                completion(true)
             }
-            tableView.reloadData()
-        }
     }
 }

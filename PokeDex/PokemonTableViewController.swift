@@ -14,7 +14,27 @@ class PokemonTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        pokemonData.loadAllPokemonsOn(tableView: tableView)
+        pokemonData.loadAllPokemonsOn { (didFinishLoad) in
+            if didFinishLoad {
+                self.tableView.reloadData()
+                self.animateTableView()
+            }
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.animateTableView()
+    }
+
+    func animateTableView() {
+        let cells = tableView.visibleCells
+        for (index, cell) in cells.enumerated() {
+            cell.transform = CGAffineTransform(translationX: 0, y: tableView.bounds.height + 100)
+            let delay = Double(index) * 0.1
+            UIView.animate(withDuration: 0.5, delay: delay , usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [.curveEaseOut], animations: {
+                cell.transform = .identity
+                }, completion: nil)
+        }
     }
 
     // MARK: - Table view data source
