@@ -22,7 +22,6 @@ class PKAPIHelper {
         var request = URLRequest(url: pkAPIURL)
         request.httpMethod = "GET"
         let session = URLSession.shared
-        DispatchQueue.global(qos: .background).async {
             session.dataTask(with: request) { (data, response, error) in
                 guard let jsonData = data else { return }
                 var json: [[String: Any]]?
@@ -36,7 +35,6 @@ class PKAPIHelper {
                     completion(json, response, errorString)
                 }
                 }.resume()
-        }
     }
 
 
