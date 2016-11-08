@@ -34,26 +34,19 @@ class PokemonDetailViewController: UIViewController, AVSpeechSynthesizerDelegate
         setupPokemonData()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        roatePokeBall()
-    }
-
     func roatePokeBall() {
         UIView.animate(withDuration: 2.0, delay: 0.5, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             for _ in 0..<4 {
                 self.setPokeballTransformRotate180()
             }
-            }, completion: { (didFinish) in
-                if didFinish {
-                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                        self.pkimageView.transform = self.pkimageView.transform.scaledBy(x: 1.5, y: 1.5)
-                        }, completion: { (didFinishScale) in
-                            if didFinishScale {
-                                self.pkimageView.transform = .identity
-                            }
-                    })
-                }
+        }, completion: { (didFinish) in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
+                self.pkimageView.transform = self.pkimageView.transform.scaledBy(x: 1.5, y: 1.5)
+            }, completion: { (didFinishScale) in
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.pkimageView.transform = .identity
+                })
+            })
         })
     }
 
@@ -69,7 +62,11 @@ class PokemonDetailViewController: UIViewController, AVSpeechSynthesizerDelegate
 
     func setupPokemonData() {
         guard let pk = pokemon else { return }
-        pkimageView.downloadImage(urlString: pk.imageUrlString)
+        pkimageView.downloadImage(url: pk.imageUrlString) { (didFinish) in
+            if didFinish {
+                self.roatePokeBall()
+            }
+        }
         pkIDLabel.text = String(pk.pkDexID)
         pkNameLabel.text = pk.name.uppercased()
         pkDescriptionTextView.text = pk.description
