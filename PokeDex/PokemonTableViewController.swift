@@ -8,22 +8,48 @@
 
 import UIKit
 
-class PokemonTableViewController: UITableViewController {
+class PokemonTableViewController: UITableViewController, UISearchBarDelegate {
 
     let pokemonData = PokemonData()
+    var displayPokemons = [Pokemon]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    var isSearching = false
+
+    lazy var searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        sb.delegate = self
+        sb.translatesAutoresizingMaskIntoConstraints = false
+        sb.placeholder = "Enter Pokemon Name or Type"
+        return sb
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         pokemonData.loadAllPokemonsOn { (didFinishLoad) in
             if didFinishLoad {
-                self.tableView.reloadData()
+                self.displayPokemons = self.pokemonData.pokemons
                 self.animateTableView()
             }
         }
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.animateTableView()
+        setupSearchBar()
+    }
+
+    func setupSearchBar() {
+        let frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        let searchbarView = UIView(frame: frame)
+        searchbarView.addSubview(searchBar)
+        searchBar.leftAnchor.constraint(equalTo: searchbarView.leftAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: searchbarView.rightAnchor).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: searchbarView.frame.height).isActive = true
+        tableView.tableHeaderView = searchbarView
     }
 
     func animateTableView() {
@@ -44,20 +70,41 @@ class PokemonTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count = pokemonData.pokemons?.count else { return 0 }
-        return count
+        return displayPokemons.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pkCellID", for: indexPath) as! PokemonTableViewCell
-        cell.pokemon = pokemonData.pokemons?[indexPath.row]
+        cell.pokemon = displayPokemons[indexPath.row]
         cell.selectionStyle = .none
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedPokemon = pokemonData.pokemons?[indexPath.row]
+
+        let selectedPokemon = displayPokemons[indexPath.row]
         performSegue(withIdentifier: "detailPKVCSegueID", sender: selectedPokemon)
+    }
+
+    // MARK: - Search Bar Delegate
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let pokemons = pokemonData.pokemons
+        if searchText.characters.count > 0 {
+            displayPokemons = pokemons.filter({ (pokemon) -> Bool in
+                let lowercasedText = searchText.lowercased()
+                return pokemon.name.lowercased().contains(lowercasedText) || pokemon.types.contains(where: { $0.lowercased().contains(lowercasedText) })
+            })
+        } else {
+            displayPokemons = pokemons
+        }
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
