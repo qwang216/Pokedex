@@ -69,7 +69,7 @@ class PokemonDetailViewController: UIViewController, AVSpeechSynthesizerDelegate
         }
         pkIDLabel.text = String(pk.pkDexID)
         pkNameLabel.text = pk.name.uppercased()
-        pkDescriptionTextView.text = pk.description
+        pkDescriptionTextView.text = pk.descriptionString
         for (index, type) in pk.types.enumerated() {
             if index == 0 {
                 pkType1ImageView.image = UIImage(named: type)

@@ -7,18 +7,18 @@
 //
 
 import Foundation
-class Pokemon {
+class Pokemon: NSObject {
     let name: String
     let pkDexID: Int
     let imageUrlString: String
-    let description: String
+    let descriptionString: String
     let types: [String]
 
     init(name: String, pkDexID: Int, imageUrl: String, description: String, types: [String]) {
         self.name = name
         self.pkDexID = pkDexID
         self.imageUrlString = imageUrl
-        self.description = description
+        self.descriptionString = description
         self.types = types
     }
 
