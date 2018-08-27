@@ -7,12 +7,12 @@
 //
 
 import Foundation
-@objc class Pokemon: NSObject {
-    let name: String
+class Pokemon: NSObject {
+    @objc let name: String
     let pkDexID: Int
     let imageUrlString: String
     let descriptionString: String
-    let types: [String]
+    @objc let types: [String]
 
     init(name: String, pkDexID: Int, imageUrl: String, description: String, types: [String]) {
         self.name = name

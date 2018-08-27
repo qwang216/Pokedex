@@ -91,7 +91,7 @@ class PokemonTableViewController: UITableViewController, UISearchBarDelegate {
         let pokemons = pokemonData.pokemons
         if searchText.count > 0 {
             let predicate = NSPredicate(format: "name contains[c] %@ or any types contains[c] %@", searchText, searchText)
-            displayPokemons = pokemons.filter { predicate.evaluate(with: $0 )}
+            displayPokemons = pokemons.filter { predicate.evaluate(with: $0) }
 //            displayPokemons = pokemons.filter({ (pokemon) -> Bool in
 //                let lowercasedText = searchText.lowercased()
 //                return pokemon.name.lowercased().contains(lowercasedText) || pokemon.types.contains(where: { $0.lowercased().contains(lowercasedText) })
