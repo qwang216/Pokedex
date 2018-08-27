@@ -89,7 +89,7 @@ class PokemonTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - Search Bar Delegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         let pokemons = pokemonData.pokemons
-        if searchText.characters.count > 0 {
+        if searchText.count > 0 {
             let predicate = NSPredicate(format: "name contains[c] %@ or any types contains[c] %@", searchText, searchText)
             displayPokemons = pokemons.filter { predicate.evaluate(with: $0 )}
 //            displayPokemons = pokemons.filter({ (pokemon) -> Bool in

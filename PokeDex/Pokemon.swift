@@ -7,7 +7,7 @@
 //
 
 import Foundation
-class Pokemon: NSObject {
+@objc class Pokemon: NSObject {
     let name: String
     let pkDexID: Int
     let imageUrlString: String

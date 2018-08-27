@@ -51,7 +51,7 @@ class PokemonDetailViewController: UIViewController, AVSpeechSynthesizerDelegate
     }
 
     fileprivate func setPokeballTransformRotate180 () {
-        pokeballImageView.transform = pokeballImageView.transform.rotated(by: CGFloat(M_PI))
+        pokeballImageView.transform = pokeballImageView.transform.rotated(by: .pi)
     }
 
 
