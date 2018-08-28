@@ -352,6 +352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 55V3ELH4AV;
 				INFOPLIST_FILE = PokeDex/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
@@ -367,6 +368,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 55V3ELH4AV;
 				INFOPLIST_FILE = PokeDex/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
